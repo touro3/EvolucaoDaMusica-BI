@@ -23,8 +23,6 @@ data_df['popularity'] = data_df['popularity'].astype(float)
 
 # Função para visualizar a popularidade das músicas ao longo dos anos
 def plot_popularity_over_years(data_df):
-    st.write("Dados para Popularidade ao Longo dos Anos:")
-    st.write(data_df[['year', 'popularity']].head())
     plt.figure(figsize=(12,6))
     sns.lineplot(data=data_df, x='year', y='popularity')
     plt.title('Popularidade das Músicas ao Longo dos Anos')
@@ -148,6 +146,7 @@ def plot_top_artists_vinyl_sales(df, title):
 
 # Título do Aplicativo
 st.title('Análise da Evolução da Música')
+st.write('Este aplicativo analisa a evolução da música ao longo dos anos, incluindo a popularidade das músicas, as vendas de música por formato, os rankings do Billboard Hot 100, os artistas mais ouvidos por formato de mídia e suas eras musicais, os artistas mais populares atualmente e os artistas com mais discos vendidos na era do vinil.')
 
 # Sidebar para navegação
 st.sidebar.title('Menu')
@@ -167,13 +166,13 @@ if st.sidebar.checkbox('Mostrar Evolução dos Rankings do Billboard Hot 100'):
     st.header('Evolução dos Rankings do Billboard Hot 100')
     plot_billboard_rankings(charts_df)
 
-# Adicionar opção para visualizar os artistas mais ouvidos por formato de mídia e seus gêneros musicais
-era_option = st.sidebar.selectbox('Selecionar Era Musical', list(eras.keys()))
-
-if era_option:
-    st.header(f'Top 10 Artistas Mais Ouvidos na {era_option}')
-    fig = plot_top_artists_with_genres_custom_colors(era_option, top_artists_per_era[era_option])
-    st.pyplot(fig)
+show_era_graph = st.sidebar.checkbox('Mostrar Gráfico das Eras Musicais')
+if show_era_graph:
+    era_option = st.sidebar.selectbox('Selecionar Era Musical', list(eras.keys()))
+    if era_option:
+        st.header(f'Top 10 Artistas Mais Ouvidos na {era_option}')
+        fig = plot_top_artists_with_genres_custom_colors(era_option, top_artists_per_era[era_option])
+        st.pyplot(fig)
 
 # Adicionar opção para visualizar os artistas mais populares atualmente
 if st.sidebar.checkbox('Mostrar Artistas Mais Populares Atualmente'):
